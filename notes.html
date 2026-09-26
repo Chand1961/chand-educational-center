@@ -122,50 +122,6 @@ header p{
     background:#123c69;
 }
 
-/* PDF VIEWER */
-
-#pdfViewer{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:white;
-    z-index:2000;
-}
-
-.viewer-header{
-    height:60px;
-    background:#123c69;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 15px;
-}
-
-.viewer-header h3{
-    font-size:16px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:75%;
-}
-
-.close-btn{
-    background:#e53935;
-    color:white;
-    border:none;
-    padding:9px 14px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-#pdfFrame{
-    width:100%;
-    height:calc(100vh - 60px);
-    border:none;
-}
-
 .bottom-nav{
     position:fixed;
     bottom:0;
@@ -247,34 +203,6 @@ Loading notes...
 </div>
 
 
-<!-- PDF VIEWER -->
-
-<div id="pdfViewer">
-
-    <div class="viewer-header">
-
-        <h3 id="viewerTitle">
-            PDF Viewer
-        </h3>
-
-        <button
-            class="close-btn"
-            onclick="closePDF()"
-        >
-            ✕ CLOSE
-        </button>
-
-    </div>
-
-
-    <iframe
-        id="pdfFrame"
-        src=""
-    ></iframe>
-
-</div>
-
-
 <div class="bottom-nav">
 
 <a href="index.html">
@@ -301,7 +229,6 @@ Profile
 
 
 <script>
-
 
 /* =================================
    SUPABASE CONNECTION
@@ -434,13 +361,37 @@ async function loadNotes(){
         );
 
 
+        /* =================================
+           OPEN PDF
+        ================================= */
+
         button.addEventListener(
             "click",
             function(){
 
-                openPDF(
-                    material.file_url,
-                    material.title
+                const pdfURL =
+                material.file_url;
+
+
+                if(!pdfURL){
+
+                    alert(
+                        "❌ PDF URL haipo kwenye database."
+                    );
+
+                    return;
+                }
+
+
+                /*
+                   Open the original
+                   Supabase public URL.
+                   No download parameter.
+                */
+
+                window.open(
+                    pdfURL,
+                    "_blank"
                 );
 
             }
@@ -450,86 +401,6 @@ async function loadNotes(){
         container.appendChild(card);
 
     });
-
-}
-
-
-/* =================================
-   OPEN PDF
-================================= */
-
-function openPDF(pdfURL,title){
-
-    if(!pdfURL){
-
-        alert(
-            "❌ PDF URL haipo kwenye database."
-        );
-
-        return;
-    }
-
-
-    /*
-       Tell Supabase that we want
-       the PDF displayed, not downloaded.
-    */
-
-    let viewURL = pdfURL;
-
-
-    if(pdfURL.includes("?")){
-
-        viewURL =
-        pdfURL + "&download=false";
-
-    }else{
-
-        viewURL =
-        pdfURL + "?download=false";
-
-    }
-
-
-    document.getElementById(
-        "viewerTitle"
-    ).textContent = title;
-
-
-    document.getElementById(
-        "pdfFrame"
-    ).src = viewURL;
-
-
-    document.getElementById(
-        "pdfViewer"
-    ).style.display = "block";
-
-
-    document.body.style.overflow =
-    "hidden";
-
-}
-
-
-/* =================================
-   CLOSE PDF
-================================= */
-
-function closePDF(){
-
-    document.getElementById(
-        "pdfFrame"
-    ).src = "";
-
-
-    document.getElementById(
-        "pdfViewer"
-    ).style.display = "none";
-
-
-    document.body.style.overflow =
-    "";
 
 }
 
