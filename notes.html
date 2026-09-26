@@ -132,6 +132,7 @@ header p{
     justify-content:space-around;
     align-items:center;
     box-shadow:0 -2px 10px rgba(0,0,0,.1);
+    z-index:1000;
 }
 
 .bottom-nav a{
@@ -229,9 +230,9 @@ Profile
 <script>
 
 
-/* ================================
-   SUPABASE
-================================ */
+/* =================================
+   SUPABASE CONNECTION
+================================= */
 
 const SUPABASE_URL =
 "https://onfrahdbophlwamtooqw.supabase.co";
@@ -246,9 +247,9 @@ window.supabase.createClient(
 );
 
 
-/* ================================
+/* =================================
    LOAD NOTES
-================================ */
+================================= */
 
 async function loadNotes(){
 
@@ -256,7 +257,9 @@ async function loadNotes(){
     document.getElementById("message");
 
     const container =
-    document.getElementById("materialsContainer");
+    document.getElementById(
+        "materialsContainer"
+    );
 
 
     const {data,error} =
@@ -306,8 +309,10 @@ async function loadNotes(){
         const title =
         escapeHTML(material.title);
 
+
         const subject =
         escapeHTML(material.subject);
+
 
         const formClass =
         escapeHTML(
@@ -347,7 +352,9 @@ async function loadNotes(){
 
 
         const button =
-        card.querySelector(".view-btn");
+        card.querySelector(
+            ".view-btn"
+        );
 
 
         button.addEventListener(
@@ -356,12 +363,6 @@ async function loadNotes(){
 
                 const pdfURL =
                 material.file_url;
-
-
-                console.log(
-                    "PDF URL:",
-                    pdfURL
-                );
 
 
                 if(!pdfURL){
@@ -374,10 +375,35 @@ async function loadNotes(){
                 }
 
 
-                window.open(
-                    pdfURL,
-                    "_blank"
-                );
+                /*
+                 * Tell Supabase Storage
+                 * to display the PDF
+                 * instead of forcing download.
+                 */
+
+                let viewURL =
+                pdfURL;
+
+
+                if(
+                    pdfURL.includes("?")
+                ){
+
+                    viewURL =
+                    pdfURL +
+                    "&download=false";
+
+                }else{
+
+                    viewURL =
+                    pdfURL +
+                    "?download=false";
+
+                }
+
+
+                window.location.href =
+                viewURL;
 
             }
         );
@@ -390,9 +416,9 @@ async function loadNotes(){
 }
 
 
-/* ================================
+/* =================================
    SEARCH
-================================ */
+================================= */
 
 document
 .getElementById("searchInput")
@@ -420,10 +446,19 @@ document
                 .toLowerCase();
 
 
-                card.style.display =
-                text.includes(search)
-                ? ""
-                : "none";
+                if(
+                    text.includes(search)
+                ){
+
+                    card.style.display =
+                    "";
+
+                }else{
+
+                    card.style.display =
+                    "none";
+
+                }
 
             }
         );
@@ -432,9 +467,9 @@ document
 );
 
 
-/* ================================
+/* =================================
    SECURITY
-================================ */
+================================= */
 
 function escapeHTML(value){
 
@@ -442,19 +477,40 @@ function escapeHTML(value){
         return "";
     }
 
+
     return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
-/* ================================
+/* =================================
    START
-================================ */
+================================= */
 
 loadNotes();
 
