@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Past Papers - CHAND INSTITUTE OF TECHNOLOGY</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#123c69;
+}
+
+header{
+    background:linear-gradient(135deg,#123c69,#1769aa);
+    color:white;
+    padding:25px 15px;
+    text-align:center;
+    border-radius:0 0 25px 25px;
+}
+
+header h1{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+header p{
+    font-size:14px;
+}
+
+.search-box{
+    padding:20px 15px 10px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    font-size:15px;
+    outline:none;
+}
+
+.container{
+    padding:15px;
+    padding-bottom:90px;
+}
+
+.container h2{
+    margin:10px 0 15px;
+    font-size:21px;
+}
+
+.subjects{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:18px 10px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:12px;
+}
+
+.view-btn{
+    display:inline-block;
+    background:#1769aa;
+    color:white;
+    text-decoration:none;
+    padding:9px 18px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:12px 5px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.12);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#123c69;
+    font-size:12px;
+    text-align:center;
+}
+
+.bottom-nav span{
+    display:block;
+    font-size:21px;
+    margin-bottom:3px;
+}
+
+@media(min-width:700px){
+
+    .subjects{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .container,
+    .search-box{
+        max-width:900px;
+        margin:auto;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
+    <p>Educational Materials - Past Papers</p>
+</header>
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search subject..."
+        onkeyup="searchSubjects()"
+    >
+
+</div>
+
+<div class="container">
+
+    <h2>📝 Past Papers</h2>
+
+    <div class="subjects" id="subjectList">
+
+        <div class="card">
+            <div class="icon">📐</div>
+            <h3>Mathematics</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">📖</div>
+            <h3>English</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">🧬</div>
+            <h3>Biology</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">⚛️</div>
+            <h3>Physics</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">🧪</div>
+            <h3>Chemistry</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">💻</div>
+            <h3>Computer Studies / ICT</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">💼</div>
+            <h3>Business Studies</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏛️</div>
+            <h3>History</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+        <div class="card">
+            <div class="icon">🇹🇿</div>
+            <h3>Tanzania History and Ethics</h3>
+            <a href="#" class="view-btn">VIEW</a>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <a href="index.html">
+        <span>🏠</span>
+        Home
+    </a>
+
+    <a href="#">
+        <span>⬇️</span>
+        Downloads
+    </a>
+
+    <a href="#">
+        <span>⭐</span>
+        Favorites
+    </a>
+
+    <a href="#">
+        <span>👤</span>
+        Profile
+    </a>
+
+</div>
+
+<script>
+
+function searchSubjects(){
+
+    let input = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    let cards = document
+        .getElementById("subjectList")
+        .getElementsByClassName("card");
+
+    for(let i = 0; i < cards.length; i++){
+
+        let subject = cards[i]
+            .getElementsByTagName("h3")[0]
+            .innerText
+            .toLowerCase();
+
+        if(subject.includes(input)){
+            cards[i].style.display = "";
+        }else{
+            cards[i].style.display = "none";
+        }
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
