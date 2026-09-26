@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CHAND INSTITUTE OF TECHNOLOGY</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f7fb;
+    color:#222;
+}
+
+.header{
+    background:linear-gradient(135deg,#123c69,#1769aa);
+    color:white;
+    padding:30px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.logo{
+    width:65px;
+    height:65px;
+    background:white;
+    color:#123c69;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.header h1{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.header p{
+    font-size:14px;
+    opacity:.9;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.search{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    font-size:15px;
+    margin-bottom:25px;
+}
+
+.search:focus{
+    outline:none;
+}
+
+h2{
+    color:#123c69;
+    margin-bottom:15px;
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.category{
+    background:white;
+    padding:20px 15px;
+    border-radius:16px;
+    text-decoration:none;
+    color:#222;
+    box-shadow:0 4px 14px rgba(0,0,0,.07);
+    transition:.2s;
+}
+
+.category:hover{
+    transform:translateY(-3px);
+}
+
+.icon{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.category h3{
+    color:#123c69;
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.category p{
+    font-size:12px;
+    color:#777;
+}
+
+.section{
+    margin-top:30px;
+}
+
+.admin{
+    display:block;
+    background:#123c69;
+    color:white;
+    text-align:center;
+    padding:14px;
+    border-radius:12px;
+    text-decoration:none;
+    margin-top:25px;
+    font-weight:bold;
+}
+
+.bottom-nav{
+    margin-top:35px;
+    background:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-around;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#123c69;
+    font-size:13px;
+    text-align:center;
+}
+
+@media(max-width:500px){
+
+    .categories{
+        grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="header">
+
+    <div class="logo">
+        CIT
+    </div>
+
+    <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
+
+    <p>Educational materials at your fingertips</p>
+
+</div>
+
+
+<div class="container">
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="🔍 Search educational materials..."
+        onkeyup="searchCategories()"
+    >
+
+
+    <h2>Study Materials</h2>
+
+
+    <div class="categories" id="categories">
+
+        <a href="notes.html" class="category">
+
+            <div class="icon">📄</div>
+
+            <h3>Notes</h3>
+
+            <p>Study notes and learning materials</p>
+
+        </a>
+
+
+        <a href="pastpapers.html" class="category">
+
+            <div class="icon">📚</div>
+
+            <h3>Past Papers</h3>
+
+            <p>Previous examination papers</p>
+
+        </a>
+
+
+        <a href="lessonplans.html" class="category">
+
+            <div class="icon">📝</div>
+
+            <h3>Lesson Plans</h3>
+
+            <p>Teaching and lesson plans</p>
+
+        </a>
+
+
+        <a href="schemes.html" class="category">
+
+            <div class="icon">📋</div>
+
+            <h3>Schemes of Work</h3>
+
+            <p>Educational schemes of work</p>
+
+        </a>
+
+
+        <a href="syllabus.html" class="category">
+
+            <div class="icon">📖</div>
+
+            <h3>Syllabus</h3>
+
+            <p>Educational syllabus</p>
+
+        </a>
+
+
+        <a href="examinations.html" class="category">
+
+            <div class="icon">🎓</div>
+
+            <h3>Examinations</h3>
+
+            <p>Educational examinations</p>
+
+        </a>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>Admin</h2>
+
+        <a href="admin.html" class="admin">
+            ⚙️ Admin Panel
+        </a>
+
+    </div>
+
+
+    <div class="bottom-nav">
+
+        <a href="index.html">
+            🏠<br>
+            Home
+        </a>
+
+        <a href="#">
+            ⬇️<br>
+            Downloads
+        </a>
+
+        <a href="#">
+            ❤️<br>
+            Favorites
+        </a>
+
+        <a href="#">
+            👤<br>
+            Profile
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function searchCategories(){
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const categories =
+        document.querySelectorAll(".category");
+
+    categories.forEach(function(category){
+
+        const text =
+            category.innerText.toLowerCase();
+
+        if(text.includes(search)){
+
+            category.style.display = "block";
+
+        }else{
+
+            category.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>
