@@ -7,7 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Examinations - CHAND INSTITUTE OF TECHNOLOGY</title>
+<title>Admin Panel - CHAND INSTITUTE OF TECHNOLOGY</title>
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -21,15 +25,13 @@
 body{
     background:#f4f7fb;
     color:#123c69;
-    padding-bottom:80px;
+    padding-bottom:40px;
 }
-
-/* HEADER */
 
 header{
     background:linear-gradient(135deg,#123c69,#1769aa);
     color:white;
-    padding:25px 15px;
+    padding:28px 15px;
     text-align:center;
     border-radius:0 0 25px 25px;
 }
@@ -44,122 +46,116 @@ header p{
     opacity:0.9;
 }
 
-/* SEARCH */
-
-.search-box{
-    padding:20px 15px;
-}
-
-.search-box input{
-    width:100%;
-    padding:14px 16px;
-    border:none;
-    border-radius:25px;
-    outline:none;
-    font-size:15px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-
-.page-title{
-    text-align:center;
-    margin:5px 15px 20px;
-}
-
-.page-title h2{
-    font-size:21px;
-}
-
-.page-title p{
-    font-size:13px;
-    color:#666;
-    margin-top:5px;
-}
-
-/* SUBJECTS */
-
-.subjects{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+.container{
+    max-width:700px;
+    margin:25px auto;
     padding:0 15px;
 }
 
-.card{
+.admin-card{
     background:white;
-    padding:18px 12px;
-    border-radius:15px;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+}
+
+.admin-card h2{
     text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom:8px;
 }
 
-.card .icon{
-    font-size:35px;
-    margin-bottom:10px;
+.description{
+    text-align:center;
+    color:#666;
+    font-size:14px;
+    margin-bottom:25px;
 }
 
-.card h3{
-    font-size:16px;
-    margin-bottom:12px;
-    min-height:38px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.form-group{
+    margin-bottom:18px;
 }
 
-.view-btn{
-    display:inline-block;
-    text-decoration:none;
+.form-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+    font-size:14px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+    background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#1769aa;
+}
+
+.file-box{
+    border:2px dashed #1769aa;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    background:#f8fbff;
+}
+
+.file-box input{
+    width:100%;
+}
+
+.upload-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:25px;
     background:#1769aa;
     color:white;
-    padding:9px 18px;
-    border-radius:20px;
-    font-size:13px;
+    font-size:16px;
+    font-weight:bold;
     cursor:pointer;
 }
 
-/* BOTTOM NAVIGATION */
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:10px 5px;
-    box-shadow:0 -3px 12px rgba(0,0,0,0.1);
-    z-index:1000;
+.upload-btn:hover{
+    background:#123c69;
 }
 
-.bottom-nav a{
-    text-decoration:none;
-    color:#123c69;
-    font-size:12px;
+.upload-btn:disabled{
+    background:#999;
+    cursor:not-allowed;
+}
+
+#message{
+    margin-top:18px;
     text-align:center;
+    font-size:14px;
+    font-weight:bold;
+    line-height:1.5;
 }
 
-.bottom-nav span{
+.back-btn{
     display:block;
-    font-size:20px;
-    margin-bottom:3px;
+    text-align:center;
+    margin-top:20px;
+    text-decoration:none;
+    color:#1769aa;
+    font-weight:bold;
 }
 
-/* DESKTOP */
+@media(max-width:500px){
 
-@media(min-width:700px){
-
-    .subjects{
-        grid-template-columns:repeat(3,1fr);
-        max-width:1000px;
-        margin:auto;
+    .admin-card{
+        padding:20px;
     }
 
-    .search-box{
-        max-width:800px;
-        margin:auto;
+    header h1{
+        font-size:21px;
     }
 
 }
@@ -168,237 +164,406 @@ header p{
 
 </head>
 
+
 <body>
+
 
 <header>
 
     <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
 
-    <p>Educational Materials - Examinations</p>
+    <p>Admin Panel - Educational Materials</p>
 
 </header>
 
 
-<div class="search-box">
+<div class="container">
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search subject..."
-        onkeyup="searchSubjects()"
+<div class="admin-card">
+
+    <h2>📤 Upload Educational Material</h2>
+
+    <p class="description">
+        Upload PDF materials for students to access.
+    </p>
+
+
+    <form id="uploadForm">
+
+
+        <!-- TITLE -->
+
+        <div class="form-group">
+
+            <label for="title">
+                Material Title
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Example: Form One Mathematics Notes"
+                required
+            >
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+
+            <label for="category">
+                Category
+            </label>
+
+            <select id="category" required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Notes">
+                    Notes
+                </option>
+
+                <option value="Past Papers">
+                    Past Papers
+                </option>
+
+                <option value="Lesson Plans">
+                    Lesson Plans
+                </option>
+
+                <option value="Schemes of Work">
+                    Schemes of Work
+                </option>
+
+                <option value="Syllabus">
+                    Syllabus
+                </option>
+
+                <option value="Examinations">
+                    Examinations
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- SUBJECT -->
+
+        <div class="form-group">
+
+            <label for="subject">
+                Subject
+            </label>
+
+            <select id="subject" required>
+
+                <option value="">
+                    Select Subject
+                </option>
+
+                <option value="Mathematics">
+                    Mathematics
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Biology">
+                    Biology
+                </option>
+
+                <option value="Physics">
+                    Physics
+                </option>
+
+                <option value="Chemistry">
+                    Chemistry
+                </option>
+
+                <option value="Computer Studies / ICT">
+                    Computer Studies / ICT
+                </option>
+
+                <option value="Business Studies">
+                    Business Studies
+                </option>
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Tanzania History and Ethics">
+                    Tanzania History and Ethics
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- FORM / CLASS -->
+
+        <div class="form-group">
+
+            <label for="formClass">
+                Form / Class
+            </label>
+
+            <input
+                type="text"
+                id="formClass"
+                placeholder="Example: Form One"
+            >
+
+        </div>
+
+
+        <!-- PDF -->
+
+        <div class="form-group">
+
+            <label for="pdfFile">
+                Select PDF
+            </label>
+
+            <div class="file-box">
+
+                <input
+                    type="file"
+                    id="pdfFile"
+                    accept=".pdf,application/pdf"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="upload-btn"
+            id="uploadButton"
+        >
+            📤 UPLOAD PDF
+        </button>
+
+
+    </form>
+
+
+    <div id="message"></div>
+
+
+    <a
+        href="index.html"
+        class="back-btn"
     >
+        ← Back to Home
+    </a>
 
 </div>
-
-
-<div class="page-title">
-
-    <h2>📝 Examinations</h2>
-
-    <p>Select a subject to view available examinations.</p>
-
-</div>
-
-
-<div class="subjects" id="subjectList">
-
-
-    <!-- MATHEMATICS -->
-
-    <div class="card">
-
-        <div class="icon">📐</div>
-
-        <h3>Mathematics</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- ENGLISH -->
-
-    <div class="card">
-
-        <div class="icon">📖</div>
-
-        <h3>English</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- BIOLOGY -->
-
-    <div class="card">
-
-        <div class="icon">🧬</div>
-
-        <h3>Biology</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- PHYSICS -->
-
-    <div class="card">
-
-        <div class="icon">⚛️</div>
-
-        <h3>Physics</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- CHEMISTRY -->
-
-    <div class="card">
-
-        <div class="icon">🧪</div>
-
-        <h3>Chemistry</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- COMPUTER STUDIES -->
-
-    <div class="card">
-
-        <div class="icon">💻</div>
-
-        <h3>Computer Studies / ICT</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- BUSINESS STUDIES -->
-
-    <div class="card">
-
-        <div class="icon">💼</div>
-
-        <h3>Business Studies</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- HISTORY -->
-
-    <div class="card">
-
-        <div class="icon">🏛️</div>
-
-        <h3>History</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-    <!-- TANZANIA HISTORY AND ETHICS -->
-
-    <div class="card">
-
-        <div class="icon">🇹🇿</div>
-
-        <h3>Tanzania History and Ethics</h3>
-
-        <a href="#" class="view-btn">VIEW</a>
-
-    </div>
-
-
-</div>
-
-
-<!-- BOTTOM NAVIGATION -->
-
-<div class="bottom-nav">
-
-    <a href="index.html">
-
-        <span>🏠</span>
-
-        Home
-
-    </a>
-
-
-    <a href="#">
-
-        <span>⬇️</span>
-
-        Downloads
-
-    </a>
-
-
-    <a href="#">
-
-        <span>❤️</span>
-
-        Favorites
-
-    </a>
-
-
-    <a href="#">
-
-        <span>👤</span>
-
-        Profile
-
-    </a>
 
 </div>
 
 
 <script>
 
-function searchSubjects(){
+/* ================================
+   SUPABASE CONNECTION
+================================ */
 
-    let input =
-        document.getElementById("searchInput").value.toLowerCase();
+const SUPABASE_URL =
+    "https://onfrahdbophlwamtooqw.supabase.co";
 
-    let cards =
-        document.getElementById("subjectList")
-        .getElementsByClassName("card");
+const SUPABASE_KEY =
+    "sb_publishable_4RBqOE_lbkAXHk0CXH1Qsg_YkFdPFRo";
 
-
-    for(let i = 0; i < cards.length; i++){
-
-        let subject =
-            cards[i]
-            .getElementsByTagName("h3")[0]
-            .innerText
-            .toLowerCase();
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-        if(subject.includes(input)){
+/* ================================
+   UPLOAD FORM
+================================ */
 
-            cards[i].style.display = "";
+document
+.getElementById("uploadForm")
+.addEventListener("submit", async function(event){
 
-        }else{
+    event.preventDefault();
 
-            cards[i].style.display = "none";
 
-        }
+    const title =
+        document.getElementById("title").value.trim();
+
+    const category =
+        document.getElementById("category").value;
+
+    const subject =
+        document.getElementById("subject").value;
+
+    const formClass =
+        document.getElementById("formClass").value.trim();
+
+    const file =
+        document.getElementById("pdfFile").files[0];
+
+    const message =
+        document.getElementById("message");
+
+    const uploadButton =
+        document.getElementById("uploadButton");
+
+
+    /* CHECK FILE */
+
+    if(!file){
+
+        message.innerText =
+            "❌ Please select a PDF file.";
+
+        return;
 
     }
 
-}
+
+    if(file.type !== "application/pdf"){
+
+        message.innerText =
+            "❌ Only PDF files are allowed.";
+
+        return;
+
+    }
+
+
+    /* START */
+
+    uploadButton.disabled = true;
+
+    uploadButton.innerText =
+        "⏳ Uploading...";
+
+    message.innerText =
+        "Please wait...";
+
+
+    try{
+
+        /* CREATE UNIQUE FILE NAME */
+
+        const fileName =
+            Date.now() + "_" +
+            file.name.replace(/\s+/g,"_");
+
+
+        const filePath =
+            fileName;
+
+
+        /* =========================
+           UPLOAD PDF TO STORAGE
+        ========================= */
+
+        const { data: storageData, error: storageError } =
+            await supabaseClient
+            .storage
+            .from("materials")
+            .upload(filePath, file, {
+                contentType:"application/pdf",
+                upsert:false
+            });
+
+
+        if(storageError){
+
+            throw storageError;
+
+        }
+
+
+        /* =========================
+           GET PUBLIC URL
+        ========================= */
+
+        const { data: publicUrlData } =
+            supabaseClient
+            .storage
+            .from("materials")
+            .getPublicUrl(filePath);
+
+
+        const fileUrl =
+            publicUrlData.publicUrl;
+
+
+        /* =========================
+           SAVE DATA TO DATABASE
+        ========================= */
+
+        const { data: databaseData, error: databaseError } =
+            await supabaseClient
+            .from("materials")
+            .insert([
+                {
+                    title: title,
+                    category: category,
+                    subject: subject,
+                    form_class: formClass,
+                    file_url: fileUrl
+                }
+            ])
+            .select();
+
+
+        if(databaseError){
+
+            throw databaseError;
+
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        message.innerHTML =
+            "✅ <strong>Upload successful!</strong><br>" +
+            "The material has been saved successfully.";
+
+
+        document
+        .getElementById("uploadForm")
+        .reset();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        message.innerHTML =
+            "❌ Upload failed.<br>" +
+            error.message;
+
+    }
+
+
+    uploadButton.disabled = false;
+
+    uploadButton.innerText =
+        "📤 UPLOAD PDF";
+
+});
 
 </script>
 
