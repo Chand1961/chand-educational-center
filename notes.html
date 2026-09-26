@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Notes - CHAND INSTITUTE OF TECHNOLOGY</title>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -39,7 +39,6 @@
 
         header p {
             font-size: 14px;
-            opacity: 0.9;
         }
 
         .search-box {
@@ -59,6 +58,8 @@
 
         .container {
             padding: 15px;
+            max-width: 1100px;
+            margin: auto;
         }
 
         .section-title {
@@ -87,20 +88,21 @@
         }
 
         .material-icon {
-            font-size: 32px;
+            font-size: 35px;
             margin-bottom: 10px;
         }
 
         .material-card h3 {
             color: #123c69;
             font-size: 16px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
 
         .material-card p {
             color: #666;
             font-size: 13px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .view-btn {
@@ -109,10 +111,11 @@
             text-decoration: none;
             background: #1769aa;
             color: white;
-            padding: 10px;
+            padding: 11px;
             border-radius: 10px;
-            margin-top: 12px;
+            margin-top: 13px;
             font-size: 14px;
+            cursor: pointer;
         }
 
         .view-btn:hover {
@@ -152,205 +155,237 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .container,
-            .search-box {
-                max-width: 1000px;
-                margin: auto;
-            }
-
         }
 
     </style>
 
 </head>
 
+
 <body>
 
-    <header>
 
-        <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
+<header>
 
-        <p>Educational Materials - Notes</p>
+    <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
 
-    </header>
+    <p>Educational Materials - Notes</p>
+
+</header>
 
 
-    <div class="search-box">
+<div class="search-box">
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="🔎 Search notes..."
-        >
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔎 Search notes..."
+    >
 
+</div>
+
+
+<div class="container">
+
+    <h2 class="section-title">
+        📚 Available Notes
+    </h2>
+
+    <div id="message">
+        Loading notes...
     </div>
 
-
-    <div class="container">
-
-        <h2 class="section-title">
-            📚 Available Notes
-        </h2>
-
-        <div id="message">
-            Loading notes...
-        </div>
-
-        <div
-            class="materials"
-            id="materialsContainer">
-        </div>
-
+    <div
+        class="materials"
+        id="materialsContainer">
     </div>
 
+</div>
 
-    <div class="bottom-nav">
 
-        <a href="index.html">
-            <span>🏠</span>
-            Home
-        </a>
+<div class="bottom-nav">
 
-        <a href="#">
-            <span>⬇️</span>
-            Downloads
-        </a>
+    <a href="index.html">
+        <span>🏠</span>
+        Home
+    </a>
 
-        <a href="#">
-            <span>❤️</span>
-            Favorites
-        </a>
+    <a href="#">
+        <span>⬇️</span>
+        Downloads
+    </a>
 
-        <a href="#">
-            <span>👤</span>
-            Profile
-        </a>
+    <a href="#">
+        <span>❤️</span>
+        Favorites
+    </a>
 
-    </div>
+    <a href="#">
+        <span>👤</span>
+        Profile
+    </a>
+
+</div>
 
 
 <script>
 
-    /* ==============================
-       SUPABASE CONNECTION
-    ============================== */
 
-    const SUPABASE_URL =
-        "https://onfrahdbophlwamtooqw.supabase.co";
+/* =====================================
+   SUPABASE CONNECTION
+===================================== */
 
-    const SUPABASE_KEY =
-        "sb_publishable_4RBqOE_lbkAXHk0CXH1Qsg_YkFdPFRo";
+const SUPABASE_URL =
+    "https://onfrahdbophlwamtooqw.supabase.co";
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
+const SUPABASE_KEY =
+    "sb_publishable_4RBqOE_lbkAXHk0CXH1Qsg_YkFdPFRo";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================
+   LOAD NOTES
+===================================== */
+
+async function loadNotes() {
+
+    const message =
+        document.getElementById("message");
+
+    const container =
+        document.getElementById("materialsContainer");
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("materials")
+            .select("*")
+            .eq("category", "Notes")
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if (error) {
+
+        console.error(
+            "Supabase error:",
+            error
         );
 
+        message.innerHTML =
+            "❌ Failed to load notes.";
 
-    /* ==============================
-       LOAD NOTES
-    ============================== */
-
-    async function loadNotes() {
-
-        const message =
-            document.getElementById("message");
-
-        const container =
-            document.getElementById("materialsContainer");
-
-
-        const { data, error } =
-            await supabaseClient
-                .from("materials")
-                .select("*")
-                .eq("category", "Notes")
-                .order("created_at", {
-                    ascending: false
-                });
-
-
-        if (error) {
-
-            console.error(error);
-
-            message.innerHTML =
-                "❌ Failed to load notes.";
-
-            return;
-        }
-
-
-        if (!data || data.length === 0) {
-
-            message.innerHTML =
-                "📚 No notes available yet.";
-
-            return;
-        }
-
-
-        message.innerHTML = "";
-
-
-        data.forEach(function(material) {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "material-card";
-
-
-            card.innerHTML = `
-
-                <div class="material-icon">
-                    📄
-                </div>
-
-                <h3>
-                    ${escapeHTML(material.title)}
-                </h3>
-
-                <p>
-                    <strong>Subject:</strong>
-                    ${escapeHTML(material.subject)}
-                </p>
-
-                <p>
-                    <strong>Form/Class:</strong>
-                    ${escapeHTML(material.form_class || "Not specified")}
-                </p>
-
-                <a
-                    href="${material.file_url}"
-                    target="_blank"
-                    class="view-btn"
-                >
-                    📖 VIEW PDF
-                </a>
-
-            `;
-
-
-            container.appendChild(card);
-
-        });
-
+        return;
     }
 
 
-    /* ==============================
-       SEARCH
-    ============================== */
+    if (!data || data.length === 0) {
 
-    document
-        .getElementById("searchInput")
-        .addEventListener("input", function() {
+        message.innerHTML =
+            "📚 No notes available yet.";
+
+        return;
+    }
+
+
+    message.innerHTML = "";
+
+    container.innerHTML = "";
+
+
+    data.forEach(function(material) {
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "material-card";
+
+
+        const title =
+            escapeHTML(
+                material.title
+            );
+
+
+        const subject =
+            escapeHTML(
+                material.subject
+            );
+
+
+        const formClass =
+            escapeHTML(
+                material.form_class ||
+                "Not specified"
+            );
+
+
+        const fileURL =
+            material.file_url;
+
+
+        card.innerHTML = `
+
+            <div class="material-icon">
+                📄
+            </div>
+
+            <h3>
+                ${title}
+            </h3>
+
+            <p>
+                <strong>Subject:</strong>
+                ${subject}
+            </p>
+
+            <p>
+                <strong>Form/Class:</strong>
+                ${formClass}
+            </p>
+
+            <a
+                class="view-btn"
+                href="${fileURL}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                📖 VIEW PDF
+            </a>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+document
+    .getElementById("searchInput")
+    .addEventListener(
+        "input",
+        function() {
 
             const search =
-                this.value.toLowerCase();
+                this.value
+                    .toLowerCase()
+                    .trim();
+
 
             const cards =
                 document.querySelectorAll(
@@ -358,52 +393,78 @@
                 );
 
 
-            cards.forEach(function(card) {
+            cards.forEach(
+                function(card) {
 
-                const text =
-                    card.textContent.toLowerCase();
+                    const text =
+                        card.textContent
+                            .toLowerCase();
 
-                if (text.includes(search)) {
 
-                    card.style.display = "";
+                    if (
+                        text.includes(search)
+                    ) {
 
-                } else {
+                        card.style.display =
+                            "";
 
-                    card.style.display = "none";
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
 
                 }
+            );
 
-            });
+        }
+    );
 
-        });
 
+/* =====================================
+   SECURITY
+===================================== */
 
-    /* ==============================
-       SECURITY
-       Prevent HTML injection
-    ============================== */
+function escapeHTML(value) {
 
-    function escapeHTML(value) {
-
-        if (!value) return "";
-
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
+    if (!value) {
+        return "";
     }
 
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-    /* ==============================
-       START
-    ============================== */
+}
 
-    loadNotes();
+
+/* =====================================
+   START
+===================================== */
+
+loadNotes();
 
 </script>
+
 
 </body>
 
