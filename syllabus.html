@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Syllabus - CHAND INSTITUTE OF TECHNOLOGY</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#123c69;
+    padding-bottom:80px;
+}
+
+/* HEADER */
+
+header{
+    background:linear-gradient(135deg,#123c69,#1769aa);
+    color:white;
+    padding:25px 15px;
+    text-align:center;
+    border-radius:0 0 25px 25px;
+}
+
+header h1{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+header p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* SEARCH */
+
+.search-box{
+    padding:20px 15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px 16px;
+    border:none;
+    border-radius:25px;
+    outline:none;
+    font-size:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+
+.page-title{
+    text-align:center;
+    margin:5px 15px 20px;
+}
+
+.page-title h2{
+    font-size:21px;
+}
+
+.page-title p{
+    font-size:13px;
+    color:#666;
+    margin-top:5px;
+}
+
+/* SUBJECTS */
+
+.subjects{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    padding:0 15px;
+}
+
+.card{
+    background:white;
+    padding:18px 12px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card .icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:12px;
+    min-height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.view-btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#1769aa;
+    color:white;
+    padding:9px 18px;
+    border-radius:20px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 5px;
+    box-shadow:0 -3px 12px rgba(0,0,0,0.1);
+    z-index:1000;
+}
+
+.bottom-nav a{
+    text-decoration:none;
+    color:#123c69;
+    font-size:12px;
+    text-align:center;
+}
+
+.bottom-nav span{
+    display:block;
+    font-size:20px;
+    margin-bottom:3px;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .subjects{
+        grid-template-columns:repeat(3,1fr);
+        max-width:1000px;
+        margin:auto;
+    }
+
+    .search-box{
+        max-width:800px;
+        margin:auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>CHAND INSTITUTE OF TECHNOLOGY</h1>
+
+    <p>Educational Materials - Syllabus</p>
+
+</header>
+
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search subject..."
+        onkeyup="searchSubjects()"
+    >
+
+</div>
+
+
+<div class="page-title">
+
+    <h2>📘 Syllabus</h2>
+
+    <p>Select a subject to view available syllabus.</p>
+
+</div>
+
+
+<div class="subjects" id="subjectList">
+
+
+    <!-- MATHEMATICS -->
+
+    <div class="card">
+
+        <div class="icon">📐</div>
+
+        <h3>Mathematics</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- ENGLISH -->
+
+    <div class="card">
+
+        <div class="icon">📖</div>
+
+        <h3>English</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- BIOLOGY -->
+
+    <div class="card">
+
+        <div class="icon">🧬</div>
+
+        <h3>Biology</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- PHYSICS -->
+
+    <div class="card">
+
+        <div class="icon">⚛️</div>
+
+        <h3>Physics</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- CHEMISTRY -->
+
+    <div class="card">
+
+        <div class="icon">🧪</div>
+
+        <h3>Chemistry</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- COMPUTER STUDIES -->
+
+    <div class="card">
+
+        <div class="icon">💻</div>
+
+        <h3>Computer Studies / ICT</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- BUSINESS STUDIES -->
+
+    <div class="card">
+
+        <div class="icon">💼</div>
+
+        <h3>Business Studies</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- HISTORY -->
+
+    <div class="card">
+
+        <div class="icon">🏛️</div>
+
+        <h3>History</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+    <!-- TANZANIA HISTORY AND ETHICS -->
+
+    <div class="card">
+
+        <div class="icon">🇹🇿</div>
+
+        <h3>Tanzania History and Ethics</h3>
+
+        <a href="#" class="view-btn">VIEW</a>
+
+    </div>
+
+
+</div>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<div class="bottom-nav">
+
+    <a href="index.html">
+
+        <span>🏠</span>
+
+        Home
+
+    </a>
+
+
+    <a href="#">
+
+        <span>⬇️</span>
+
+        Downloads
+
+    </a>
+
+
+    <a href="#">
+
+        <span>❤️</span>
+
+        Favorites
+
+    </a>
+
+
+    <a href="#">
+
+        <span>👤</span>
+
+        Profile
+
+    </a>
+
+</div>
+
+
+<script>
+
+function searchSubjects(){
+
+    let input =
+        document.getElementById("searchInput").value.toLowerCase();
+
+    let cards =
+        document.getElementById("subjectList")
+        .getElementsByClassName("card");
+
+
+    for(let i = 0; i < cards.length; i++){
+
+        let subject =
+            cards[i]
+            .getElementsByTagName("h3")[0]
+            .innerText
+            .toLowerCase();
+
+
+        if(subject.includes(input)){
+
+            cards[i].style.display = "";
+
+        }else{
+
+            cards[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
